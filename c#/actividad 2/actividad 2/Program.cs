@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collection.Generic;
 using System.Runtime.CompilerServices;
 
 public class Temperatura
 {
-    private static int[,] temperaturas = new[5,7];
+    private static int[,] temperaturas = new int [5,7];
     private static List<double> promedioSemanal = new List<double>();
     private static List<int> temperaturasAltas = new List<int>();
 
@@ -80,7 +79,7 @@ public class Temperatura
     }
     private static void VerTemperaturaDelDia()
     {
-        Console.WriteLine("ingrese el dia(1-31)");
+        Console.WriteLine("ingrese el dia(1 al 31)");
         int dia = Convert.ToInt32(Console.ReadLine()) - 1;
 
         if (dia >= 0 && dia < 31)
@@ -112,7 +111,7 @@ public class Temperatura
             int suma = 0;
             int diasEnSemana = 0;
 
-            for int j = 0; j < 7; j++)
+            for (int j = 0; j < 7; j++)
             {
                 if (i * 7 + j < 31)
                 {
@@ -122,7 +121,7 @@ public class Temperatura
             }
             double promedio = diasEnSemana > 0 ? (double)suma / diasEnSemana : 0;
             promedioSemanal.Add(promedio);
-            Console.WriteLine($"Promedio de la semana {i+1}:{promedio:F2}"
+            Console.WriteLine($"Promedio de la semana {i + 1}:{promedio:F2}");
         }
     }
     private static void BuscarTemperaturasAltas()
@@ -163,5 +162,59 @@ public class Temperatura
         double promedio = totalDias > 0 ? suma / totalDias : 0;
         Console.WriteLine($"la temperatura mensual es {promedio:F2}");
     }
+
+    private static void VerTemperaturaMasBaja()
+    {
+        int minTemp = int.MaxValue; // Inicializar con el valor máximo posible
+
+        for (int i = 0; i < 5; i++) // Iterar a través de cada semana
+        {
+            for (int j = 0; j < 7; j++) // Revisar cada día de la semana
+            {
+                if (i * 7 + j < 31 && temperaturas[i, j] < minTemp) // Si encuentra una temperatura menor, actualizar minTemp
+                {
+                    minTemp = temperaturas[i, j];
+                }
+            }
+        }
+
+        Console.WriteLine($"La temperatura más baja del mes es: {minTemp}");
+    }
+    private static void VerTemperaturaMasAlta()
+    {
+            int maxTemp = int.MinValue; // Inicializar con el valor mínimo posible
+
+            for (int i = 0; i < 5; i++) // Iterar a través de cada semana
+            {
+                for (int j = 0; j < 7; j++) // Revisar cada día de la semana
+                {
+                    if (i * 7 + j < 31 && temperaturas[i, j] > maxTemp) // Si encuentra una temperatura mayor, actualizar maxTemp
+                    {
+                        maxTemp = temperaturas[i, j];
+                    }
+                }
+            }
+
+            Console.WriteLine($"La temperatura más alta del mes es: {maxTemp}");
+    }
+
+    private static void VerPronosticoPosteriorAlMes()
+    {
+        Random random = new Random(); // Crear un generador de números aleatorios para simular el pronóstico
+        int[] pronostico = new int[5]; // Crear un arreglo para guardar las temperaturas de los 5 días posteriores
+
+        // Generar el pronóstico para los 5 días posteriores
+        for (int i = 0; i < 5; i++)
+        {
+            pronostico[i] = random.Next(-5, 35); // Generar una temperatura aleatoria entre -5° y 35°
+        }
+
+        Console.WriteLine("Pronóstico para los 5 días posteriores al mes:");
+        for (int i = 0; i < 5; i++)
+        {
+            Console.WriteLine($"Día {i + 1}: {pronostico[i]}°");
+        }
+    }
+
 
 }
